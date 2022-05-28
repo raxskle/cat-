@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>随机猫猫🐱</title>
+    <style>
+      img {
+        width: auto;
+        height: 500px;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(255, 246, 247);
+      }
+      .new {
+        width: 200px;
+        height: 60px;
+        background-color: rgb(250, 216, 220);
+        text-align: center;
+        line-height: 60px;
+        border-radius: 4px;
+      }
+
+      .new:hover {
+        cursor: pointer;
+      }
+
+      .newclick {
+        width: 200px;
+        height: 60px;
+        background-color: rgb(193, 155, 160);
+        text-align: center;
+        line-height: 60px;
+        border-radius: 4px;
+      }
+
+      .newclick:hover {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="on">
+      <div class="pic"><img /></div>
+    </div>
+    <div class="new">点击获取随机猫猫🐱</div>
+
+    <script>
+      let catUrl;
+      fetch("https://api.thecatapi.com/v1/images/search", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json;charset=utf-8",
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          catUrl = response[0].url;
+          let img = document.querySelector(".pic img");
+          img.src = catUrl;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      let newCat = document.querySelector(".new");
+      newCat.onclick = function () {
+        newCat.className = "newclick";
+        fetch("https://api.thecatapi.com/v1/images/search", {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json;charset=utf-8",
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            catUrl = response[0].url;
+            let img = document.querySelector(".pic img");
+            img.src = catUrl;
+            newCat.className = "new";
+          })
+          .catch((err) => {
+            console.log(err);
+            newCat.className = "new";
+          });
+      };
+    </script>
+  </body>
+</html>
